@@ -1,6 +1,7 @@
 
 from fastapi import FastAPI
 from pydantic import BaseModel
+from fastapi import HTTPException 
 
 app = FastAPI(title="Proyecto Fin de Bootcamp")
 
@@ -20,7 +21,7 @@ async def read_item(item_id: int):
     item = items_db.get(item_id)
     if item:
         return item
-    return {"error": "Item no encontrado"}
+     raise HTTPException(status_code=404, detail="Item no encontrado") #Lanza excepcion en vez de return
 
 @app.post("/items/", response_model=Item)
 async def create_item(item: Item):
